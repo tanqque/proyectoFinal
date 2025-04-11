@@ -1,21 +1,20 @@
-package models;
+package hospital.models;
 
-public class Medicamento {
+//////////// Clase abstracta que representa un medicamento genérico //////////////////////
+public abstract class Medicamento {
+
+    //////////// Atributos comunes //////////////////////
     protected String nombre;
     protected String descripcion;
     protected double costo;
-    protected double precioVenta;
 
+    //////////// Constructor base para inicializar medicamento //////////////////////
     public Medicamento(String nombre, String descripcion, double costo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
-        this.precioVenta = calcularPrecioVenta();
     }
 
-    public double calcularPrecioVenta() {
-        return costo * 1.1; // Genérico por defecto
-    }
-
-    // Getters y Setters
+    //////////// Método abstracto que calculará el precio de venta //////////////////////
+    public abstract double calcularPrecioVenta();
 }

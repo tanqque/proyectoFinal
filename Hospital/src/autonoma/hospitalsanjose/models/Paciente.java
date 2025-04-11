@@ -1,25 +1,19 @@
-package models;
+package hospital.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
+//////////// Clase que representa a un paciente registrado en el hospital //////////////////////
 public class Paciente {
+
+    //////////// Atributos personales del paciente //////////////////////
     private String nombre;
     private String numeroDocumento;
     private int edad;
-    private String correoElectronico;
     private String telefono;
-    private String estado;
-    private List<String> enfermedades;
 
-    public Paciente(String nombre, String numeroDocumento, int edad, String correoElectronico, String telefono) {
+    //////////// Constructor que inicializa un nuevo paciente con su información básica //////////////////////
+    public Paciente(String nombre, String numeroDocumento, int edad, String telefono) {
         this.nombre = nombre;
         this.numeroDocumento = numeroDocumento;
         this.edad = edad;
-        this.correoElectronico = correoElectronico;
         this.telefono = telefono;
-        this.estado = "saludable";
-        this.enfermedades = new ArrayList<>();
     }
-
-    public void curarEnfermedad
+}

@@ -1,35 +1,24 @@
-package controllers;
+package hospital.controllers;
 
-import models.Hospital;
-import models.Empleado;
-import models.Paciente;
-import views.HospitalView;
+import hospital.models.*;
+import hospital.views.HospitalView;
 
-import java.util.List;
-
+//////////// Clase que controla la lógica entre vista y modelo //////////////////////
 public class HospitalController {
-    private Hospital hospital;
-    private HospitalView view;
 
-    public HospitalController(Hospital hospital) {
-        this.hospital = hospital;
-        this.view = new HospitalView();
+    private Hospital modelo;
+    private HospitalView vista;
+
+    //////////// Constructor del controlador con inyección de dependencias //////////////////////
+    public HospitalController(Hospital modelo, HospitalView vista) {
+        this.modelo = modelo;
+        this.vista = vista;
     }
 
-    public void agregarEmpleado(Empleado empleado) {
-        hospital.getEmpleados().add(empleado);
-    }
-
-    public void generarNomina() {
-        hospital.generarNomina();
-        view.mostrarEstadoHospital(hospital);
-    }
-
-    public void mostrarEmpleados() {
-        view.mostrarEmpleados(hospital.getEmpleados());
-    }
-
-    public void mostrarPaciente(Paciente paciente) {
-        view.mostrarPaciente(paciente);
+    //////////// Método para mostrar el estado del hospital y sus empleados //////////////////////
+    public void ejecutar() {
+        double nomina = modelo.generarNomina();
+        vista.mostrarNomina(nomina);
+        vista.mostrarEmpleados(modelo.getEmpleados());
     }
 }

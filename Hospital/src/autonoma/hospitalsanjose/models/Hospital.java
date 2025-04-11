@@ -1,50 +1,68 @@
-package models;
+package hospital.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//////////// Clase que representa al Hospital San José St. Bonaventure //////////////////////
 public class Hospital {
+
+    //////////// Atributos generales del hospital //////////////////////
     private String nombre;
     private String direccion;
     private String telefono;
-    private String logo;
     private double presupuesto;
-    private double metaVentasAnual;
-    private String fechaFundacion;
-    private String estado;
-    private List<Empleado> empleados;
+    private boolean estado; // true = activo, false = en quiebra
 
-    public Hospital(String nombre, String direccion, String telefono, String logo, double presupuesto, double metaVentasAnual, String fechaFundacion) {
+    //////////// Composición: listas dinámicas de empleados y pacientes //////////////////////
+    private List<Empleado> empleados;
+    private List<Paciente> pacientes;
+
+    //////////// Constructor que inicializa el hospital con listas vacías //////////////////////
+    public Hospital(String nombre, String direccion, String telefono, double presupuesto) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.logo = logo;
         this.presupuesto = presupuesto;
-        this.metaVentasAnual = metaVentasAnual;
-        this.fechaFundacion = fechaFundacion;
-        this.estado = "activo";
+        this.estado = true;
         this.empleados = new ArrayList<>();
+        this.pacientes = new ArrayList<>();
     }
 
-    public void registrarPatrocinio(double valor) {
-        this.presupuesto += valor;
-        actualizarEstado();
+    //////////// Método para agregar un empleado //////////////////////
+    public void agregarEmpleado(Empleado empleado) {
+        empleados.add(empleado);
     }
 
-    public void generarNomina() {
-        double totalNomina = 0;
-        for (Empleado empleado : empleados) {
-            totalNomina += empleado.calcularSalario();
+    //////////// Método para agregar un paciente //////////////////////
+    public void agregarPaciente(Paciente paciente) {
+        pacientes.add(paciente);
+    }
+
+    //////////// Método para calcular y mostrar la nómina total //////////////////////
+    public double generarNomina() {
+        double total = 0;
+        for (Empleado e : empleados) {
+            total += e.calcularSalario(); // Polimorfismo
         }
-        this.presupuesto -= totalNomina;
-        actualizarEstado();
+        return total;
     }
 
-    private void actualizarEstado() {
-        if (this.presupuesto < 0) {
-            this.estado = "en quiebra";
+    //////////// Método para actualizar el estado financiero del hospital //////////////////////
+    public void actualizarEstado() {
+        estado = presupuesto > 0;
+    }
+
+    //////////// Método para disminuir presupuesto //////////////////////
+    public void disminuirPresupuesto(double cantidad) throws HospitalException {
+        if (cantidad > presupuesto) {
+            throw new HospitalException("Fondos insuficientes");
         }
+        presupuesto -= cantidad;
     }
 
+    //////////// Getters para vista //////////////////////
+    public String getNombre() { return nombre; }
+    public double getPresupuesto() { return presupuesto; }
+    public boolean isEstado() { return estado; }
+    public List<Empleado> getEmpleados() { return empleados; }
 }
-
